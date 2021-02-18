@@ -1,0 +1,7 @@
+SnappyLinearLayoutManager snappyLinearLayoutManager = new SnappyLinearLayoutManager(Context);
+
+snappyLinearLayoutManager.setSnapType(SnapType.CENTER);
+
+snappyLinearLayoutManager.setSnapInterpolator(new DecelerateInterpolator());
+
+RecyclerView.setLayoutManager(snappyLinearLayoutManager);
