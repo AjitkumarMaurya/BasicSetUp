@@ -1,3 +1,11 @@
+
+BasicSetUp
+============
+
+
+Download
+--------
+
 To get a Git project into your build:
 
 Step 1. Add the JitPack repository to your build file
@@ -24,7 +32,8 @@ Step 2. Add the dependency
 	}
 	
 	
-Licensed under the Apache License, Version 2.0	
+License
+-------
 	
     Copyright 2021  AjitkumarMaurya
     
