@@ -1,0 +1,3 @@
+include ':basicSetUp'
+include ':app'
+rootProject.name = "BasicSetUp"
