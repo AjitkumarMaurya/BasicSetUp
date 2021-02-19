@@ -14,7 +14,6 @@ public class PaperDB {
        return Paper.book().read(repoName);
     }
 
-
     public static void write(Object value,String repoName){
         Paper.book().write(repoName, value);
     }
