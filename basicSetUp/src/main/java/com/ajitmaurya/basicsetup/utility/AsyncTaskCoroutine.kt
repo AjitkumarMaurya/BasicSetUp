@@ -1,4 +1,4 @@
-package com.fincasys.fincasysapp.utils
+package com.ajitmaurya.basicsetup.utility
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope

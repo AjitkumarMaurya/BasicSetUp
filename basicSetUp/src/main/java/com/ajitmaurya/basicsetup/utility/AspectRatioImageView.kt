@@ -1,4 +1,5 @@
-package com.fincasys.fincasysapp.utils
+package com.ajitmaurya.basicsetup.utility
+
 import android.content.Context
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatImageView
