@@ -31,6 +31,42 @@ Step 2. Add the dependency
 	        implementation 'com.github.AjitkumarMaurya:basicSetUp:v1.4'
 	}
 	
+
+	
+Use Permission
+----------
+
+add to manifest
+
+<activity
+         android:name=".askPermission.PermissionsActivity"
+                    android:theme="@style/Transparent"
+                    android:windowSoftInputMode="stateHidden|adjustResize" />
+
+
+add to style
+
+     <style name="Transparent" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
+
+Permissions.check(this, new String[]{Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, "request permission msg", null, new PermissionHandler() {
+                    @Override
+                    public void onGranted() {
+
+                    }
+
+                    @Override
+                    public void onDenied(Context context, ArrayList<String> deniedPermissions) {
+                        super.onDenied(context, deniedPermissions);
+
+                    }
+                });
 	
 License
 -------

@@ -39,13 +39,13 @@ add to manifest
 
 */
 
-
 @SuppressWarnings("unchecked")
 @TargetApi(Build.VERSION_CODES.M)
 public class PermissionsActivity extends Activity {
     static final String EXTRA_PERMISSIONS = "permissions";
     static final String EXTRA_RATIONALE = "rationale";
     static final String EXTRA_OPTIONS = "options";
+    static String rotationMsg;
     private static final int RC_SETTINGS = 6739;
     private static final int RC_PERMISSION = 6937;
     static PermissionHandler permissionHandler;
@@ -57,11 +57,7 @@ public class PermissionsActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (Build.VERSION.SDK_INT == 26) {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
-        } else {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        }
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
         setFinishOnTouchOutside(false);
         Intent intent = getIntent();
         if (intent == null || !intent.hasExtra(EXTRA_PERMISSIONS)) {
@@ -96,6 +92,11 @@ public class PermissionsActivity extends Activity {
         }
 
         String rationale = intent.getStringExtra(EXTRA_RATIONALE);
+
+        if (intent.getStringExtra(EXTRA_RATIONALE)!=null) {
+            rotationMsg = intent.getStringExtra(EXTRA_RATIONALE);
+        }
+
         if (noRationale || TextUtils.isEmpty(rationale)) {
             Permissions.log("No rationale.");
             requestPermissions(toArray(deniedPermissions), RC_PERMISSION);
@@ -188,7 +189,7 @@ public class PermissionsActivity extends Activity {
         }
         Permissions.log("Ask to go to settings.");
         new AlertDialog.Builder(this).setTitle(options.settingsDialogTitle)
-                .setMessage(options.settingsDialogMessage)
+                .setMessage(rotationMsg+options.settingsDialogMessage)
                 .setPositiveButton(options.settingsText, new DialogInterface.OnClickListener() {
                     @Override
                     @SuppressWarnings("InlinedAPI")

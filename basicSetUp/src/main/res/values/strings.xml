@@ -1,0 +1,11 @@
+<resources>
+
+    <string name="camera_storege_per"><![CDATA["Required Camera & Storage Permission "]]></string>
+    <string name="storege_per"><![CDATA["Required Storage Permission "]]></string>
+    <string name="camera_per"><![CDATA["Required Camera Permission "]]></string>
+    <string name="location_per"><![CDATA["Required Location Permission "]]></string>
+    <string name="micro_per"><![CDATA["Required Microphone Permission "]]></string>
+    <string name="contact_per"><![CDATA["Required Contact Permission "]]></string>
+
+
+</resources>
