@@ -55,6 +55,8 @@ add to style
         <item name="android:backgroundDimEnabled">false</item>
     </style>
 
+get permission
+
     Permissions.check(this, new String[]{Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, "request permission msg", null, new PermissionHandler() {
                     @Override
                     public void onGranted() {
