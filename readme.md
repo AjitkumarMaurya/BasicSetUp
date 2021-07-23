@@ -71,6 +71,32 @@ get permission
 
                     }
                 });
+                
+Calling AsyncTask
+-----------
+
+    class className extends AsyncTaskCoroutine<Void, String> {
+  
+          @Override
+          public String doInBackground(Void... voids) {
+  
+              String newVersion = null;
+  
+              
+              return newVersion;
+  
+          }
+  
+  
+          @Override
+          public void onPostExecute(String onlineVersion) {
+  
+              super.onPostExecute(onlineVersion);
+  
+            
+          }
+      }
+                
 	
 License
 -------

@@ -18,7 +18,6 @@ import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.media.AudioFormat;
 import android.media.AudioRecord;
-import android.media.ExifInterface;
 import android.media.MediaMetadataRetriever;
 import android.media.MediaRecorder;
 import android.net.Uri;
@@ -49,6 +48,7 @@ import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.RoundedBitmapDrawable;
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 import androidx.core.widget.NestedScrollView;
+import androidx.exifinterface.media.ExifInterface;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -80,7 +80,9 @@ import java.net.URLConnection;
 import java.nio.charset.Charset;
 import java.security.SecureRandom;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -94,6 +96,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import okio.ByteString;
 
 
@@ -103,23 +106,8 @@ public class BasicFunctions {
     private static final String IMAGEPATHTOSAVE = "/download";
     private static final float maxHeight = 1280.0f;
     private static final float maxWidth = 1280.0f;
-    private Context context;
-
-    public BasicFunctions() {
-    }
-
-    public BasicFunctions(Context context) {
-        this.context = context;
-    }
 
     public static boolean checkMobileNumber(String value) {
-       /*Pattern ps = Pattern.compile("^[1-9][0-9]{9}$");
-        Matcher ms = ps.matcher(value);
-        boolean bs = ms.matches();
-        if (bs) {
-            return true;
-        }
-        return bs;*/
         return value != null && value.length() > 7 && value.length() < 16;
     }
 
@@ -245,7 +233,28 @@ public class BasicFunctions {
     }
 
 
+    public static void displayImageProfileCir(Context ctx, CircleImageView img, String url, int placeholder, int error) {
+        try {
+            Glide.with(ctx).load(url).apply(new RequestOptions().placeholder(placeholder).error(error))
+                    .into(img);
+        } catch (Exception e) {
+            e.printStackTrace();
+
+
+        }
+    }
+
     public static void displayImageURL(Context ctx, CircularImageView img, String url, int placeholder, int error) {
+        try {
+            Glide.with(ctx).load(url).apply(new RequestOptions().placeholder(placeholder).error(error))
+                    .into(img);
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+    }
+
+    public static void displayImageURL(Context ctx, CircleImageView img, String url, int placeholder, int error) {
         try {
             Glide.with(ctx).load(url).apply(new RequestOptions().placeholder(placeholder).error(error))
                     .into(img);
@@ -266,6 +275,15 @@ public class BasicFunctions {
 
 
     public static void displayImage(Context ctx, CircularImageView img, int url) {
+        try {
+            Glide.with(ctx).load(url)
+                    .into(img);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void displayImage(Context ctx, CircleImageView img, int url) {
         try {
             Glide.with(ctx).load(url)
                     .into(img);
@@ -425,7 +443,7 @@ public class BasicFunctions {
 
             // Choose the smallest ratio as inSampleSize value, this will guarantee a final image
             // with both dimensions larger than or equal to the requested height and width.
-            inSampleSize = heightRatio < widthRatio ? heightRatio : widthRatio;
+            inSampleSize = Math.min(heightRatio, widthRatio);
 
             // This offers some additional logic in case the image has a strange
             // aspect ratio. For example, a panorama may have a much larger
@@ -481,7 +499,7 @@ public class BasicFunctions {
         StringBuilder sb = new StringBuilder();
         Set<String> keys = hashMap.keySet();
         for (String key : keys) {
-            sb.append(key + ",");
+            sb.append(key).append(",");
         }
 
         return removeLastCharacter(sb.toString());
@@ -492,7 +510,7 @@ public class BasicFunctions {
         StringBuilder sb = new StringBuilder();
         Set<Integer> keys = hashMap.keySet();
         for (Integer key : keys) {
-            sb.append(key + ",");
+            sb.append(key).append(",");
         }
 
         return removeLastCharacter(sb.toString());
@@ -513,7 +531,7 @@ public class BasicFunctions {
     @NonNull
     private static String getPrecision(double d) {
         try {
-            return String.format(Locale.ENGLISH, "%.2f", Double.valueOf(d));
+            return String.format(Locale.ENGLISH, "%.2f", d);
         } catch (Exception unused) {
             return "0.00";
         }
@@ -525,7 +543,7 @@ public class BasicFunctions {
         sdf = new SimpleDateFormat("yyyy-MM-dd");
         Calendar c = Calendar.getInstance();
         try {
-            c.setTime(sdf.parse(dateNew));
+            c.setTime(Objects.requireNonNull(sdf.parse(dateNew)));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -543,13 +561,12 @@ public class BasicFunctions {
         if (split.length <= 2) {
             return str;
         }
-        StringBuilder sb = new StringBuilder();
-        sb.append(split[2]);
-        sb.append(str2);
-        sb.append(split[1]);
-        sb.append(str2);
-        sb.append(split[0]);
-        return sb.toString();
+        String sb = split[2] +
+                str2 +
+                split[1] +
+                str2 +
+                split[0];
+        return sb;
     }
 
     public static Date convertStringDateToDate(String str) {
@@ -574,12 +591,11 @@ public class BasicFunctions {
     }
 
     public static float getRoundingOffValue(double d, float f) {
-        double d2 = (double) f;
-        Double.isNaN(d2);
-        double d3 = d % d2;
+        Double.isNaN((double) f);
+        double d3 = d % (double) f;
         if (d3 > 0.0d) {
-            Double.isNaN(d2);
-            d += d2 - d3;
+            Double.isNaN((double) f);
+            d += (double) f - d3;
         }
         return (float) Math.round(d);
     }
@@ -589,24 +605,21 @@ public class BasicFunctions {
         if (d <= 0.0d) {
             return (float) Math.round(f);
         }
-        double d2 = (double) f;
-        double d3 = (double) f2;
-        Double.isNaN(d3);
+        Double.isNaN((double) f2);
         Double.isNaN(d);
-        double d4 = d3 - d;
-        Double.isNaN(d2);
-        return (float) Math.round(d2 + d4);
+        double d4 = (double) f2 - d;
+        Double.isNaN((double) f);
+        return (float) Math.round((double) f + d4);
     }
 
     public static long getRoundingOffValue(double d, int i) {
-        double d2 = (double) i;
-        Double.isNaN(d2);
-        double d3 = d % d2;
+        Double.isNaN((double) i);
+        double d3 = d % (double) i;
         if (d3 <= 0.0d) {
             return Math.round(d);
         }
-        Double.isNaN(d2);
-        return Math.round(d + (d2 - d3));
+        Double.isNaN((double) i);
+        return Math.round(d + ((double) i - d3));
     }
 
     public static long getRoundingOffValue(double d, long j) {
@@ -814,7 +827,7 @@ public class BasicFunctions {
     public static int getAlphabetImage(Context context, String alphabet) {
         String[] alphabetArray = context.getResources().getStringArray(R.array.alphabet_array);
 
-        final TypedArray alphabetIcon = context.getResources().obtainTypedArray(R.array.alphabet_icon);
+        @SuppressLint("Recycle") final TypedArray alphabetIcon = context.getResources().obtainTypedArray(R.array.alphabet_icon);
 
         for (int i = 0; i < alphabetArray.length; i++) {
             if (alphabet.equalsIgnoreCase(alphabetArray[i])) {
@@ -836,7 +849,11 @@ public class BasicFunctions {
                 date = fmt.parse(strDate);
 
                 fmtOut = new SimpleDateFormat("dd-MM-yyyy");
-                return fmtOut.format(date);
+                if (date != null) {
+                    return fmtOut.format(date);
+                }else {
+                    return strDate;
+                }
             } else {
                 return strDate;
             }
@@ -859,7 +876,9 @@ public class BasicFunctions {
                     date = fmt.parse(strDate);
 
                     fmtOut = new SimpleDateFormat("yyyy-MM-dd");
-                    return fmtOut.format(date);
+                    if (date != null) {
+                        return fmtOut.format(date);
+                    }
                 } else {
                     return strDate;
                 }
@@ -885,7 +904,9 @@ public class BasicFunctions {
                     date = fmt.parse(strDate);
 
                     fmtOut = new SimpleDateFormat(outputPattern);
-                    return fmtOut.format(date);
+                    if (date != null) {
+                        return fmtOut.format(date);
+                    }
                 } else {
                     return strDate;
                 }
@@ -901,15 +922,13 @@ public class BasicFunctions {
     public static String getOnlyStrings(String s) {
         Pattern pattern = Pattern.compile("[^a-z A-Z]");
         Matcher matcher = pattern.matcher(s);
-        String number = matcher.replaceAll("");
-        return number;
+        return matcher.replaceAll("");
     }
 
     public static String getOnlyDigits(String s) {
         Pattern pattern = Pattern.compile("[^0-9]");
         Matcher matcher = pattern.matcher(s);
-        String number = matcher.replaceAll("");
-        return number;
+        return matcher.replaceAll("");
     }
 
     public static boolean appInstalledOrNot(Context context, String uri) {
@@ -917,7 +936,8 @@ public class BasicFunctions {
         try {
             pm.getPackageInfo(uri, PackageManager.GET_ACTIVITIES);
             return true;
-        } catch (PackageManager.NameNotFoundException e) {
+        } catch (Exception e) {
+            log("@@",e.getLocalizedMessage());
         }
 
         return false;
@@ -932,20 +952,17 @@ public class BasicFunctions {
         context.startActivity(sendIntent);
     }
 
-    public static Object getGSonData(Object obj) {
+    public static String getGSonData(Object obj) {
         return new Gson().toJson(obj);
     }
 
     public static String getFormattedAmount(String amount) {
-        return amount;
-        /*try {
-            NumberFormat myFormat = NumberFormat.getInstance();
-            myFormat.setGroupingUsed(true);
-            return myFormat.format(amount);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return amount;
-        }*/
+        double d = Double.parseDouble(amount);
+        NumberFormat formatter = NumberFormat.getCurrencyInstance();
+        DecimalFormatSymbols decimalFormatSymbols = ((DecimalFormat) formatter).getDecimalFormatSymbols();
+        decimalFormatSymbols.setCurrencySymbol("");
+        ((DecimalFormat) formatter).setDecimalFormatSymbols(decimalFormatSymbols);
+        return formatter.format(d);
     }
 
     public static String getDefaultPath(Context ctx) {
@@ -1014,7 +1031,7 @@ public class BasicFunctions {
             mediaStorageDir.mkdirs();
         }
         // Create a media file name
-        String timeStamp = new java.text.SimpleDateFormat("ddMMyyyy_HHmmss").format(new Date());
+        @SuppressLint("SimpleDateFormat") String timeStamp = new java.text.SimpleDateFormat("ddMMyyyy_HHmmss").format(new Date());
         File mediaFile;
         String mImageName = "IMAGE_" + timeStamp + ".jpg";
         mediaFile = new File(file.getPath() + File.separator + mImageName);
@@ -1044,7 +1061,7 @@ public class BasicFunctions {
             mediaStorageDir.mkdirs();
         }
         // Create a media file name
-        String timeStamp = new java.text.SimpleDateFormat("ddMMyyyy_HHmmss").format(new Date());
+        @SuppressLint("SimpleDateFormat") String timeStamp = new java.text.SimpleDateFormat("ddMMyyyy_HHmmss").format(new Date());
         File mediaFile;
         String mImageName = "VIDEO_" + timeStamp + ".mp4";
         mediaFile = new File(file.getPath() + File.separator + mImageName);
@@ -1060,7 +1077,7 @@ public class BasicFunctions {
         File file = getCacheDir(ctx);
 
         // Create a media file name
-        String timeStamp = new java.text.SimpleDateFormat("ddMMyyyy_HHmmss").format(new Date());
+        @SuppressLint("SimpleDateFormat") String timeStamp = new java.text.SimpleDateFormat("ddMMyyyy_HHmmss").format(new Date());
         File mediaFile;
         String mImageName = "IMAGE_" + timeStamp + ".jpg";
         mediaFile = new File(file.getPath() + File.separator + mImageName);
@@ -1157,14 +1174,12 @@ public class BasicFunctions {
         canvas.setMatrix(scaleMatrix);
         canvas.drawBitmap(bmp, middleX - bmp.getWidth() / 2, middleY - bmp.getHeight() / 2, new Paint(Paint.FILTER_BITMAP_FLAG));
 
-        if (bmp != null) {
-            bmp.recycle();
-        }
+        bmp.recycle();
 
-        androidx.exifinterface.media.ExifInterface exif;
+        ExifInterface exif;
         try {
-            exif = new androidx.exifinterface.media.ExifInterface(imagePath);
-            int orientation = exif.getAttributeInt(androidx.exifinterface.media.ExifInterface.TAG_ORIENTATION, 0);
+            exif = new ExifInterface(imagePath);
+            int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, 0);
             Matrix matrix = new Matrix();
             if (orientation == 6) {
                 matrix.postRotate(90);
@@ -1173,7 +1188,9 @@ public class BasicFunctions {
             } else if (orientation == 8) {
                 matrix.postRotate(270);
             }
-            scaledBitmap = Bitmap.createBitmap(scaledBitmap, 0, 0, scaledBitmap.getWidth(), scaledBitmap.getHeight(), matrix, true);
+            if (scaledBitmap != null) {
+                scaledBitmap = Bitmap.createBitmap(scaledBitmap, 0, 0, scaledBitmap.getWidth(), scaledBitmap.getHeight(), matrix, true);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -1183,7 +1200,9 @@ public class BasicFunctions {
             out = new FileOutputStream(filepath);
 
             //write the compressed bitmap at the destination specified by filename.
-            scaledBitmap.compress(Bitmap.CompressFormat.JPEG, 80, out);
+            if (scaledBitmap != null) {
+                scaledBitmap.compress(Bitmap.CompressFormat.JPEG, 80, out);
+            }
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -1224,8 +1243,7 @@ public class BasicFunctions {
         }
 
         String mImageName = "IMG_" + System.currentTimeMillis() + ".jpg";
-        String uriString = (mediaStorageDir.getAbsolutePath() + "/" + mImageName);
-        return uriString;
+        return (mediaStorageDir.getAbsolutePath() + "/" + mImageName);
     }
 
     @SuppressLint("SimpleDateFormat")
@@ -1245,7 +1263,9 @@ public class BasicFunctions {
                 date = df.parse(twelveHoursTime);
 
                 //old date format to new date format
-                output = outputformat.format(date);
+                if (date != null) {
+                    output = outputformat.format(date);
+                }
             }
             return output;
         } catch (ParseException e) {
@@ -1294,11 +1314,15 @@ public class BasicFunctions {
 
         try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                SimpleDateFormat format = new SimpleDateFormat("h:mm a");
+                @SuppressLint("SimpleDateFormat") SimpleDateFormat format = new SimpleDateFormat("h:mm a");
                 Date date1 = null, date2 = null;
                 date1 = format.parse(time1);
                 date2 = format.parse(time2);
-                difference = date2.getTime() - date1.getTime();
+                if (date2 != null) {
+                    if (date1 != null) {
+                        difference = date2.getTime() - date1.getTime();
+                    }
+                }
                 difference = difference / 1000;
 
             }
@@ -1365,8 +1389,18 @@ public class BasicFunctions {
         return finalTimerString;
     }
 
-    public static boolean validateMicAvailability() {
-        Boolean available = true;
+    public static boolean validateMicAvailability(Context context) {
+        boolean available = true;
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return false;
+        }
         AudioRecord recorder =
                 new AudioRecord(MediaRecorder.AudioSource.MIC, 44100,
                         AudioFormat.CHANNEL_IN_MONO,
@@ -1420,15 +1454,24 @@ public class BasicFunctions {
         SimpleDateFormat formatter5 = null;
         formatter5 = new SimpleDateFormat("HH:mm");
         try {
-            Date date1 = formatter5.parse(a);
-            Date date2 = formatter5.parse(b);
+            Date date1 = null;
+            if (a != null) {
+                date1 = formatter5.parse(a);
+            }
+            Date date2 = null;
+            if (b != null) {
+                date2 = formatter5.parse(b);
+            }
 
-            if (date1.after(date2)) {
-                log("##", date1.toString() + "before =>true" + date2.toString());
-                answer = true;
-            } else {
-                answer = false;
-                log("##", "before => false");
+            if (date1 != null) {
+                if (date1.after(date2)) {
+                    if (date2 != null) {
+                        log("##", date1.toString() + "before =>true" + date2.toString());
+                    }
+                    answer = true;
+                } else {
+                    log("##", "before => false");
+                }
             }
 
 
@@ -1439,6 +1482,7 @@ public class BasicFunctions {
         return answer;
     }
 
+    @SuppressLint("QueryPermissionsNeeded")
     public static void callDialer(Context context, String number) {
 
         if (number != null && number.length() > 2) {
@@ -1500,13 +1544,13 @@ public class BasicFunctions {
     }
 
     public static void setSpinnerValue(Context context, Spinner spinner, String[] spinnerArray) {
-        ArrayAdapter aa = new ArrayAdapter(context, android.R.layout.simple_spinner_item, spinnerArray);
+        ArrayAdapter<String> aa = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, spinnerArray);
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(aa);
     }
 
     public static void setSpinnerValue(Context context, AppCompatSpinner spinner, String[] spinnerArray) {
-        ArrayAdapter aa = new ArrayAdapter(context, android.R.layout.simple_spinner_item, spinnerArray);
+        ArrayAdapter<String> aa = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, spinnerArray);
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(aa);
     }

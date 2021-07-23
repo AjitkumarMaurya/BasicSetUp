@@ -8,12 +8,12 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.jakewharton.butterknife'
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 31
     buildToolsVersion "30.0.3"
 
     defaultConfig {
         minSdkVersion 21
-        targetSdkVersion 30
+        targetSdkVersion 31
         versionCode 5
         versionName "1.5"
 
@@ -88,6 +88,9 @@ dependencies {
     api 'org.ocpsoft.prettytime:prettytime:5.0.0.Final'
 
     api 'org.jsoup:jsoup:1.13.1'
+
+    api 'de.hdodenhof:circleimageview:3.1.0'
+
 
     implementation "androidx.core:core-ktx:1.6.0"
     implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.4.31'
