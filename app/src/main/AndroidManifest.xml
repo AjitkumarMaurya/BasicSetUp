@@ -12,7 +12,8 @@
         android:theme="@style/Theme.BasicSetUp"
         tools:replace="android:theme,android:icon">
 
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
