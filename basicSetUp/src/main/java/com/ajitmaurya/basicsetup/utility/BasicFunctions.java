@@ -591,34 +591,34 @@ public class BasicFunctions {
     }
 
     public static float getRoundingOffValue(double d, float f) {
-        Double.isNaN((double) f);
+        Double.isNaN(f);
         double d3 = d % (double) f;
         if (d3 > 0.0d) {
-            Double.isNaN((double) f);
+            Double.isNaN(f);
             d += (double) f - d3;
         }
         return (float) Math.round(d);
     }
 
     public static float getRoundingOffValue(float f, float f2) {
-        double d = (double) (f % f2);
+        double d = f % f2;
         if (d <= 0.0d) {
             return (float) Math.round(f);
         }
-        Double.isNaN((double) f2);
+        Double.isNaN(f2);
         Double.isNaN(d);
         double d4 = (double) f2 - d;
-        Double.isNaN((double) f);
+        Double.isNaN(f);
         return (float) Math.round((double) f + d4);
     }
 
     public static long getRoundingOffValue(double d, int i) {
-        Double.isNaN((double) i);
+        Double.isNaN(i);
         double d3 = d % (double) i;
         if (d3 <= 0.0d) {
             return Math.round(d);
         }
-        Double.isNaN((double) i);
+        Double.isNaN(i);
         return Math.round(d + ((double) i - d3));
     }
 
