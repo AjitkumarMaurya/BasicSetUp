@@ -12,4 +12,18 @@
     <string name="OpenSans_SemiBold">opensans_semibold</string>
     <string name="OpenSans_SemiBoldItalic">opensans_semibolditalic</string>
 
+
+    <string name="spro_regular">spro_regular</string>
+    <string name="spro_blackIt">spro_blackIt</string>
+    <string name="spro_bold">spro_bold</string>
+    <string name="spro_black">spro_black</string>
+    <string name="spro_boldIt">spro_boldIt</string>
+    <string name="spro_extralight">spro_extralight</string>
+    <string name="spro_extralightIt">spro_extralightIt</string>
+    <string name="spro_It">spro_It</string>
+    <string name="spro_light">spro_light</string>
+    <string name="spro_lightIt">spro_lightIt</string>
+    <string name="spro_semibold">spro_semibold</string>
+    <string name="spro_semiboldIt">spro_semiboldIt</string>
+
 </resources>

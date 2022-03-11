@@ -24,6 +24,19 @@
         <enum name="OpenSans_Regular" value="8" />
         <enum name="OpenSans_SemiBold" value="9" />
         <enum name="OpenSans_SemiBoldItalic" value="10" />
+
+        <enum name="spro_regular" value="11" />
+        <enum name="spro_blackIt" value="12" />
+        <enum name="spro_bold" value="13" />
+        <enum name="spro_black" value="14" />
+        <enum name="spro_boldIt" value="15" />
+        <enum name="spro_extralight" value="16" />
+        <enum name="spro_extralightIt" value="17" />
+        <enum name="spro_It" value="18" />
+        <enum name="spro_light" value="19" />
+        <enum name="spro_lightIt" value="20" />
+        <enum name="spro_semibold" value="21" />
+        <enum name="spro_semiboldIt" value="22" />
     </attr>
 
 </resources>

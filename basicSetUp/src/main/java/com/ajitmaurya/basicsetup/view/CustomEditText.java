@@ -77,8 +77,44 @@ public class CustomEditText extends EditText {
             case 10:
                 fontName = R.string.OpenSans_SemiBoldItalic;
                 break;
+            case 11:
+                fontName = R.string.spro_regular;
+                break;
+            case 12:
+                fontName = R.string.spro_blackIt;
+                break;
+            case 13:
+                fontName = R.string.spro_bold;
+                break;
+            case 14:
+                fontName = R.string.spro_black;
+                break;
+            case 15:
+                fontName = R.string.spro_boldIt;
+                break;
+            case 16:
+                fontName = R.string.spro_extralight;
+                break;
+            case 17:
+                fontName = R.string.spro_extralightIt;
+                break;
+            case 18:
+                fontName = R.string.spro_It;
+                break;
+            case 19:
+                fontName = R.string.spro_light;
+                break;
+            case 20:
+                fontName = R.string.spro_lightIt;
+                break;
+            case 21:
+                fontName = R.string.spro_semibold;
+                break;
+            case 22:
+                fontName = R.string.spro_semiboldIt;
+                break;
             default:
-                fontName = R.string.OpenSans_Regular;
+                fontName = R.string.spro_regular;
                 break;
         }
 
