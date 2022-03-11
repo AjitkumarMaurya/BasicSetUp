@@ -2,6 +2,7 @@ plugins {
     id 'com.android.library'
 }
 group='com.github.AjitkumarMaurya'
+
 apply plugin: 'com.android.library'
 apply plugin: 'com.jakewharton.butterknife'
 apply plugin: 'com.android.library'
