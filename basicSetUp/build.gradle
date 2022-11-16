@@ -1,13 +1,10 @@
-plugins {
-    id 'com.android.library'
-}
-group='com.github.AjitkumarMaurya'
-
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'maven-publish'
 apply plugin: 'com.jakewharton.butterknife'
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-parcelize'
-apply plugin: 'com.vanniktech.maven.publish'
+group ='com.github.AjitkumarMaurya'
 
 android {
     compileSdkVersion 33
@@ -15,12 +12,11 @@ android {
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion 33
-
+        versionCode 9
+        versionName "9"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
     }
-
-
 
 
     buildTypes {
@@ -33,6 +29,7 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
     namespace 'com.ajitmaurya.basicsetup'
 }
 
@@ -97,6 +94,20 @@ dependencies {
     implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.7.20'
 
 }
+
+
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+                groupId = 'com.github.AjitkumarMaurya'
+                artifactId = 'basicSetUp'
+            }
+        }
+    }
+}
+
 repositories {
     mavenCentral()
 }
