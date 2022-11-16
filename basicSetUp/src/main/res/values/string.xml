@@ -26,4 +26,26 @@
     <string name="spro_semibold">spro_semibold</string>
     <string name="spro_semiboldIt">spro_semiboldIt</string>
 
+    <!-- AlertDialog UpdateInfo Available -->
+    <string name="appverupdate_update_available">Available a new update!</string>
+    <string name="appverupdater_content_update_available">Update %1$s mobile app to version %2$s</string>
+    <string name="appverupdater_notes_update_available">Update %1$s mobile app to version %2$s \nFeatures: \n%3$s</string>
+    <string name="appverupdater_positivetext_update_available">Update</string>
+    <string name="appverupdater_negativetext_update_available">Later</string>
+    <!-- AlertDialog Not UpdateInfo Available -->
+    <string name="appverupdate_not_update_available">No updates available!</string>
+    <string name="appverupdater_content_not_update_available">You have the latest version of the application</string>
+    <!-- ProgressDialog UpdateInfo Available -->
+    <string name="appverupdater_progressdialog_message_update_available">Download</string>
+    <!-- AlertDialog Denied Permissin -->
+    <string name="appverupdater_denied_message">If you reject permission,you can not use this service</string>
+
+    <string name="youAreNotUpdatedTitle">Update Available</string>
+    <string name="youAreNotUpdatedMessage">A new version of VidApplication is available. Please update to version </string>
+    <string name="youAreNotUpdatedMessage1">  download now</string>
+    <string name="update">Next</string>
+    <string name="install">Install</string>
+    <string name="download">Download Link</string>
+
+
 </resources>

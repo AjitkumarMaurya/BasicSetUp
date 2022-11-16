@@ -12,8 +12,8 @@ android {
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion 33
-        versionCode 9
-        versionName "9"
+        versionCode 10
+        versionName "10"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
     }
@@ -88,7 +88,9 @@ dependencies {
     api 'org.jsoup:jsoup:1.15.1'
 
     api 'de.hdodenhof:circleimageview:3.1.0'
+    implementation 'com.mani:ThinDownloadManager:1.4.0'
 
+    implementation 'gun0912.ted:tedpermission:2.2.2'
 
     implementation "androidx.core:core-ktx:1.9.0"
     implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.7.20'
