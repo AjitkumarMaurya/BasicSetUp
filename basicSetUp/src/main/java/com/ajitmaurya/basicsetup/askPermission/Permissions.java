@@ -1,5 +1,6 @@
 package com.ajitmaurya.basicsetup.askPermission;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -78,39 +79,64 @@ public class Permissions {
      */
     public static void check(final Context context, String[] permissions, String rationale,
                              Options options, final PermissionHandler handler) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            handler.onGranted();
-            log("Android version < 23");
+
+
+        boolean isCamSto = false;
+
+        for (String per : permissions) {
+            if (per.equalsIgnoreCase(Manifest.permission.READ_EXTERNAL_STORAGE) || per.equalsIgnoreCase(Manifest.permission.WRITE_EXTERNAL_STORAGE) || per.equalsIgnoreCase(Manifest.permission.CAMERA)) {
+                isCamSto = true;
+                break;
+            }
+        }
+
+
+        if (isCamSto) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                checkAsk(context, new String[]{Manifest.permission.READ_MEDIA_IMAGES, Manifest.permission.CAMERA}, rationale, options, handler);
+            } else {
+                checkAsk(context, permissions, rationale, options, handler);
+            }
         } else {
-            Set<String> permissionsSet = new LinkedHashSet<>();
-            Collections.addAll(permissionsSet, permissions);
-            boolean allPermissionProvided = true;
-            for (String aPermission : permissionsSet) {
+            checkAsk(context, permissions, rationale, options, handler);
+        }
+
+    }
+
+
+    public static void checkAsk(final Context context, String[] permissions, String rationale,
+                                Options options, final PermissionHandler handler) {
+
+        Set<String> permissionsSet = new LinkedHashSet<>();
+        Collections.addAll(permissionsSet, permissions);
+        boolean allPermissionProvided = true;
+        for (String aPermission : permissionsSet) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 if (context.checkSelfPermission(aPermission) != PackageManager.PERMISSION_GRANTED) {
                     allPermissionProvided = false;
                     break;
                 }
             }
+        }
 
-            if (allPermissionProvided) {
-                handler.onGranted();
-                log("Permission(s) " + (PermissionsActivity.permissionHandler == null ?
-                        "already granted." : "just granted from settings."));
-                PermissionsActivity.permissionHandler = null;
+        if (allPermissionProvided) {
+            handler.onGranted();
+            log("Permission(s) " + (PermissionsActivity.permissionHandler == null ?
+                    "already granted." : "just granted from settings."));
+            PermissionsActivity.permissionHandler = null;
 
-            } else {
-                PermissionsActivity.permissionHandler = handler;
-                ArrayList<String> permissionsList = new ArrayList<>(permissionsSet);
+        } else {
+            PermissionsActivity.permissionHandler = handler;
+            ArrayList<String> permissionsList = new ArrayList<>(permissionsSet);
 
-                Intent intent = new Intent(context, PermissionsActivity.class)
-                        .putExtra(PermissionsActivity.EXTRA_PERMISSIONS, permissionsList)
-                        .putExtra(PermissionsActivity.EXTRA_RATIONALE, rationale)
-                        .putExtra(PermissionsActivity.EXTRA_OPTIONS, options);
-                if (options != null && options.createNewTask) {
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                }
-                context.startActivity(intent);
+            Intent intent = new Intent(context, PermissionsActivity.class)
+                    .putExtra(PermissionsActivity.EXTRA_PERMISSIONS, permissionsList)
+                    .putExtra(PermissionsActivity.EXTRA_RATIONALE, rationale)
+                    .putExtra(PermissionsActivity.EXTRA_OPTIONS, options);
+            if (options != null && options.createNewTask) {
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             }
+            context.startActivity(intent);
         }
     }
 
