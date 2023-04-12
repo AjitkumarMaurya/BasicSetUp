@@ -98,48 +98,6 @@ Calling AsyncTask
       }
 
 
-App Update
------------    
-	    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
-
-         new AppVerUpdater()
-                .setUpdateJSONUrl("https://raw.githubusercontent.com/AjitkumarMaurya/backend/master/vidupdate.json")
-                .setShowNotUpdated(true)
-                .setViewNotes(true)
-                .setAlertDialogCancelable(false)
-                .setCallback(new Callback() {
-                    @Override
-                    public void onFailure(UpdateErrors error) {
-
-                        if (error == UpdateErrors.NETWORK_NOT_AVAILABLE) {
-                            Toast.makeText(SplashActivity.this, "No internet connection.", Toast.LENGTH_LONG).show();
-                        } else if (error == UpdateErrors.ERROR_CHECKING_UPDATES) {
-                            Toast.makeText(SplashActivity.this, "An error occurred while checking for updates.", Toast.LENGTH_LONG).show();
-                        } else if (error == UpdateErrors.ERROR_DOWNLOADING_UPDATES) {
-                            Toast.makeText(SplashActivity.this, "An error occurred when downloading updates.", Toast.LENGTH_LONG).show();
-                        } else if (error == UpdateErrors.JSON_FILE_IS_MISSING) {
-                            Toast.makeText(SplashActivity.this, "Json file is missing.", Toast.LENGTH_LONG).show();
-                        } else if (error == UpdateErrors.FILE_JSON_NO_DATA) {
-                            Toast.makeText(SplashActivity.this, "The file containing information about the updates are empty.", Toast.LENGTH_LONG).show();
-                        }
-
-                    }
-
-                    @Override
-                    public void onDownloadSuccess() {
-
-
-                    }
-
-                    @Override
-                    public void onUpdateChecked(boolean downloading) {
-
-                    }
-                })
-                .setAlertDialogCancelable(false)
-                .build(this);
-
-
 License
 -------
 	
