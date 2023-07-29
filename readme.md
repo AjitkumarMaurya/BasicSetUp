@@ -29,7 +29,7 @@ Step 2. Add the dependency
 
     dependencies {
     
-	        implementation 'com.github.AjitkumarMaurya:basicSetUp:v10.0'
+	        implementation 'com.github.AjitkumarMaurya:basicSetUp:v14'
 	      	   
 	}
 	
