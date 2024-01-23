@@ -10,8 +10,8 @@ android {
         applicationId "com.ajitmaurya.basicsetup"
         minSdkVersion 21
         targetSdkVersion 34
-        versionCode 16
-        versionName "16"
+        versionCode 17
+        versionName "17"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
